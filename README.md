@@ -4,7 +4,22 @@
 
 ### Paso 0: Entorno de Trabajo
 
+a)Primero compilo y ejecuto una aplicación simple ISO C que imprima por pantalla el mensaje“Hola Mundo” y finalice retornando 0 (cero). A continuación se encuntra la ejecución de dicha aplicación con y sin Valgrind:
 ![paso0](https://github.com/chiabauni/TP0/blob/main/paso0.png)
+
+b)¿Para qué sirve Valgrind?¿Cuáles son sus opciones más comunes? 
+Valgrind nos permite usar distintas herramientas a la hora de revisar el uso de memoria de nuestro código. Una de las herramienta es hacer chequeos de memoria en el programa y nos avisa si hay o no pérdida de memoria y por ende si estamos liberando la memoria dinámica utilizada correctamente. Tambien nos permite saber si estamos haciendo un correcto uso de la memoria a nuestra disposición.**Chequear respuestaaa**
+
+c)¿Qué respresenta el sizeof()?¿Cuál sería el valor de salida de sizeof(char) y sizeof(int)? El sizeof() respresenta la cantidad de bytes que ocupa el tipo de dato que se encuntra entre parentesis. El valor de salida de sizeof() varia segun el compilador y la plataforma que estemos utilizando. EN nuestro caso utilizando gcc obtenemos que sizeof(char)=1 y sizeof(int)=4.
+
+d)¿El sizeof() de una struct de C es igual a la suma del sizeof() de cada uno sus elementos? Justifique mediante un ejemplo. No necesariamente, puede ocurrir que el sizeof() de una struct de C sea mayor a la suma del sizeof() de cada uno sus elementos. Lo podemos ver en el siguiente ejemplo:
+![paso0_1](https://github.com/chiabauni/TP0/blob/main/paso0_2.png)
+![paso0_2](https://github.com/chiabauni/TP0/blob/main/paso0_1.png)
+Por lo que podemos concluir que el sizeof() de una struct de C es mayor o igual a la suma del sizeof() de cada uno sus elementos.
+
+e)Investigar la existencia de los archivos estándar: STDIN, STDOUT, STDERR. Explicar brevemente su uso y cómo redirigirlos en caso de ser necesario (caracteres > y <) y comoconectar la salida estándar de un proceso a la entrada estándar de otro con un pipe (carácter|).
+**Agregar esta respuesta**
+
 
 ### Paso 1: SERCOM - Errores de generación y normas de programación
 Error del SERCOM: 
@@ -61,8 +76,55 @@ Total errors found: 11
 ```
 
 ### Paso 2: SERCOM - Errores de generación 2
-Error del SERCOM:
+Diferencias entre el paso1 y el paso 2:
+```
+3a4
+> #include "paso2_wordscounter.h"
+12c13
+<         strcpy(filepath, argv[1]);
+---
+>         memcpy(filepath, argv[1], strlen(argv[1]) + 1);
+14,15c15
+<     }
+<     else {
+---
+>     } else {
+0a1
+> #include "paso2_wordscounter.h"
+4d4
+< #include "paso1_wordscounter.h"
+13,14c13
+< void wordscounter_create(wordscounter_t *self)
+< {
+---
+> void wordscounter_create(wordscounter_t *self) {
+27c26
+<     } while(state != STATE_FINISHED);
+---
+>     } while (state != STATE_FINISHED);
+41c40
+<     if (  c == EOF) {
+---
+>     if (c == EOF) {
+46,48c45,46
+<     }
+<     else if (state == STATE_IN_WORD) {
+<         if(strchr(delim_words, c) != NULL) {
+---
+>     } else if (state == STATE_IN_WORD) {
+>         if (strchr(delim_words, c) != NULL) {
+53c51
+<     return next_state ;
+---
+>     return next_state;
+5c5
+< // Tipo wordscounter_t: almacena la cantidad de palabras procesadas de un archivo.
+---
+> // Tipo wordscounter_t: procesa cantidad de palabras dentro de un archivo.
+```
 
+Error del SERCOM:
+```
 Desempaquetando y compilando el codigo...
 
 Descomprimiendo el codigo 'source_unsafe.zip'...
@@ -117,10 +179,28 @@ Verificando el codigo...
 Done processing /task/student//source_unsafe/paso2_wordscounter.c
 Done processing /task/student//source_unsafe/paso2_main.c
 Done processing /task/student//source_unsafe/paso2_wordscounter.h
+```
 
 ### Paso 3: SERCOM - Errores de generación 3
-Error del SERCOM:
+Diferencias entre el paso2 y el paso3:
+```
+4c4
+< #include "paso2_wordscounter.h"
+---
+> #include "paso3_wordscounter.h"
+1c1
+< #include "paso2_wordscounter.h"
+---
+> #include "paso3_wordscounter.h"
+4a5
+> #include <stdlib.h>
+3a4,5
+> #include <string.h>
+> #include <stdio.h>
+```
 
+Error del SERCOM:
+```
 Desempaquetando y compilando el codigo...
 
 Descomprimiendo el codigo 'source_unsafe.zip'...
@@ -147,11 +227,29 @@ Verificando el codigo...
 Done processing /task/student//source_unsafe/paso3_main.c
 Done processing /task/student//source_unsafe/paso3_wordscounter.c
 Done processing /task/student//source_unsafe/paso3_wordscounter.h
+```
+
 
 ### Paso 4: SERCOM - Memory Leaks y Buffer Overflows
+DIferencias entre el paso3 y el paso4:
+```
+4c4
+< #include "paso3_wordscounter.h"
+---
+> #include "paso4_wordscounter.h"
+1c1
+< #include "paso3_wordscounter.h"
+---
+> #include "paso4_wordscounter.h"
+15a16,19
+> }
+> 
+> void wordscounter_destroy(wordscounter_t *self) {
+>     //do nothing
+```
 
 Error del SERCOM:
-
+```
 Desempaquetando y compilando el codigo...
 
 Descomprimiendo el codigo 'source_unsafe.zip'...
@@ -661,12 +759,44 @@ Comparando las salidas con las salidas esperadas...
 
 
 [Error] Se encontraron diferencias entre las salidas obtenidas y las esperadas.
+```
 
 
 ### Paso 5: SERCOM - Código de retorno y salida estándar
+Diferencias entre el paso4 y el paso5:
+```
+4c4
+< #include "paso4_wordscounter.h"
+---
+> #include "paso5_wordscounter.h"
+12,14c12
+<         char filepath[30];
+<         memcpy(filepath, argv[1], strlen(argv[1]) + 1);
+<         input = fopen(filepath, "r");
+---
+>         input = fopen(argv[1], "r");
+27a26,27
+>         if (input != stdin)
+>             fclose(input);
+1c1
+< #include "paso4_wordscounter.h"
+---
+> #include "paso5_wordscounter.h"
+35,42c35
+<     char* delim_words = malloc(7 * sizeof(char));
+<     delim_words[0] = ' ';
+<     delim_words[1] = ',';
+<     delim_words[2] = '.';
+<     delim_words[3] = ';';
+<     delim_words[4] = ':';
+<     delim_words[5] = '\n';
+<     delim_words[6] = '\0';
+---
+>     const char* delim_words = " ,.;:\n";
+```
 
 Error del SERCOM:
-
+```
 Desempaquetando y compilando el codigo...
 
 Descomprimiendo el codigo 'source_unsafe.zip'...
@@ -895,11 +1025,55 @@ Comparando las salidas con las salidas esperadas...
 
 
 [Error] Se encontraron diferencias entre las salidas obtenidas y las esperadas.
+```
 
 
 ### Paso 6: SERCOM - Entrega exitosa
-Error del SERCOM:
+Diferencias entre el paso 5 y el paso6:
+```
+4c4
+< #include "paso5_wordscounter.h"
+---
+> #include "paso6_wordscounter.h"
+7c7
+< #define ERROR -1
+---
+> #define ERROR 1
+1c1
+< #include "paso5_wordscounter.h"
+---
+> #include "paso6_wordscounter.h"
+9a10
+> #define DELIM_WORDS " ,.;:\n"
+35,36d35
+<     const char* delim_words = " ,.;:\n";
+< 
+38,41c37,41
+<     if (c == EOF) {
+<         next_state = STATE_FINISHED;
+<     } else if (state == STATE_WAITING_WORD) {
+<         if (strchr(delim_words, c) == NULL)
+---
+> 
+>     if (state == STATE_WAITING_WORD) {
+>         if (c == EOF) { 
+>             next_state = STATE_FINISHED;
+>         } else if (strchr(DELIM_WORDS, c) == NULL) {
+42a43
+>         }
+44c45,48
+<         if (strchr(delim_words, c) != NULL) {
+---
+>         if (c == EOF) { 
+>             next_state = STATE_FINISHED;
+>             self->words++;
+>         } else if (strchr(DELIM_WORDS, c) != NULL) {
+48a53
+> 
+```
 
+Error del SERCOM:
+```
 Desempaquetando y compilando el codigo...
 
 Descomprimiendo el codigo 'source_unsafe.zip'...
@@ -1114,5 +1288,7 @@ Comparando las salidas con las salidas esperadas...
 Finalizando...
 
 Excelente. Todos los casos de pruebas, publicos y privados, fueron superados con exito.
+```
+
 
 ### Paso 7: SERCOM - Revisión de la entrega
