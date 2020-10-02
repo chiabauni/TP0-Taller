@@ -1,10 +1,10 @@
-### Taller de Programación I - TP0
+# Taller de Programación I - TP0
 ## Chiara Bauni 102981
 ## https://github.com/chiabauni/TP0
 
-# Paso 0: Entorno de Trabajo
+### Paso 0: Entorno de Trabajo
 
-# Paso 1: SERCOM - Errores de generación y normas de programación
+### Paso 1: SERCOM - Errores de generación y normas de programación
 Error del SERCOM: 
 
 Desempaquetando y compilando el codigo...
@@ -56,7 +56,7 @@ Done processing /task/student//source_unsafe/paso1_wordscounter.h
 Done processing /task/student//source_unsafe/paso1_main.c
 Total errors found: 11
 
-# Paso 2: SERCOM - Errores de generación 2
+### Paso 2: SERCOM - Errores de generación 2
 Error del SERCOM:
 
 Desempaquetando y compilando el codigo...
@@ -114,7 +114,7 @@ Done processing /task/student//source_unsafe/paso2_wordscounter.c
 Done processing /task/student//source_unsafe/paso2_main.c
 Done processing /task/student//source_unsafe/paso2_wordscounter.h
 
-# Paso 3: SERCOM - Errores de generación 3
+### Paso 3: SERCOM - Errores de generación 3
 Error del SERCOM:
 
 Desempaquetando y compilando el codigo...
@@ -144,7 +144,7 @@ Done processing /task/student//source_unsafe/paso3_main.c
 Done processing /task/student//source_unsafe/paso3_wordscounter.c
 Done processing /task/student//source_unsafe/paso3_wordscounter.h
 
-# Paso 4: SERCOM - Memory Leaks y Buffer Overflows
+### Paso 4: SERCOM - Memory Leaks y Buffer Overflows
 
 Error del SERCOM:
 
@@ -659,7 +659,7 @@ Comparando las salidas con las salidas esperadas...
 [Error] Se encontraron diferencias entre las salidas obtenidas y las esperadas.
 
 
-# Paso 5: SERCOM - Código de retorno y salida estándar
+### Paso 5: SERCOM - Código de retorno y salida estándar
 
 Error del SERCOM:
 
@@ -893,7 +893,7 @@ Comparando las salidas con las salidas esperadas...
 [Error] Se encontraron diferencias entre las salidas obtenidas y las esperadas.
 
 
-# Paso 6: SERCOM - Entrega exitosa
+### Paso 6: SERCOM - Entrega exitosa
 Error del SERCOM:
 
 Desempaquetando y compilando el codigo...
@@ -1111,4 +1111,4 @@ Finalizando...
 
 Excelente. Todos los casos de pruebas, publicos y privados, fueron superados con exito.
 
-# Paso 7: SERCOM - Revisión de la entrega
+### Paso 7: SERCOM - Revisión de la entrega
