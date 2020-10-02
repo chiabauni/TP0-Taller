@@ -4,9 +4,12 @@
 
 ### Paso 0: Entorno de Trabajo
 
+![paso0](https://github.com/chiabauni/TP0/blob/main/paso0.png)
+
 ### Paso 1: SERCOM - Errores de generación y normas de programación
 Error del SERCOM: 
 
+```
 Desempaquetando y compilando el codigo...
 Descomprimiendo el codigo 'source_unsafe.zip'...
 Archive:  source_unsafe.zip
@@ -55,6 +58,7 @@ Done processing /task/student//source_unsafe/paso1_wordscounter.c
 Done processing /task/student//source_unsafe/paso1_wordscounter.h
 Done processing /task/student//source_unsafe/paso1_main.c
 Total errors found: 11
+```
 
 ### Paso 2: SERCOM - Errores de generación 2
 Error del SERCOM:
