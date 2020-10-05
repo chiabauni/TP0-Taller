@@ -171,8 +171,8 @@ El linker genera en el archivo "paso2_wordscounter.h" los errores "unknown type 
 ### Paso 3: SERCOM - Errores de generación 3
 
 a. Las correcciones realizadas respecto a la versión anterior son:
-*Se incluye en el archivo paso3_wordscounter.h las bibliotecas: <string.h> <stdio.h>.
-*Se incluye en el archivo paso3_wordscounter.c la biblioteca: <stdlib.h>.
+* Se incluye en el archivo paso3_wordscounter.h las bibliotecas: <string.h> <stdio.h>.
+* Se incluye en el archivo paso3_wordscounter.c la biblioteca: <stdlib.h>.
 
 b. A continuación mostramos los errores de generación del ejecutable detectados por el SERCOM: 
 ```
@@ -355,30 +355,8 @@ a. Las correcciones realizadas respecto a la versión anterior son:
 * Se agrega la funcion fclose(dentro de un if) para abrir y cerrar correctamente los archivos.
 * Se elimina el malloc para guardar memoria para un vector con los delimitadores de palabras y se remplaza por un const char* con las puntuaciones.
 
-Error del SERCOM:
+b. A continuación mostramos los errores detectados de la prueba "Invalid File" y "Single Word" detectados por el SERCOM: 
 ```
-Desempaquetando y compilando el codigo...
-
-Descomprimiendo el codigo 'source_unsafe.zip'...
-Archive:  source_unsafe.zip
-  inflating: source_unsafe/paso5_main.c
-  inflating: source_unsafe/paso5_wordscounter.c
-  inflating: source_unsafe/paso5_wordscounter.h
-Compilando el codigo...
-  CC  paso5_main.o
-  CC  paso5_wordscounter.o
-  LD  tp
-
-real    0m0.549s
-user    0m0.174s
-sys     0m0.093s
-
-Verificando el codigo...
-
-Done processing /task/student//source_unsafe/paso5_wordscounter.h
-Done processing /task/student//source_unsafe/paso5_main.c
-Done processing /task/student//source_unsafe/paso5_wordscounter.c
-
 Desempaquetando los casos publicos...
 Executando los casos publicos (sin valgrind)...
 
@@ -389,33 +367,7 @@ real    0m0.006s
 user    0m0.001s
 sys     0m0.002s
 
-[=>] Executando el caso '/task/student//cases/entrada_estandar' (sin valgrind)...
-[=>] Command line: ./tp
-
-real    0m0.003s
-user    0m0.003s
-sys     0m0.000s
-
-[=>] Executando el caso '/task/student//cases/lenguage_c' (sin valgrind)...
-[=>] Command line: ./tp input_c.txt
-
-real    0m0.003s
-user    0m0.002s
-sys     0m0.000s
-
-[=>] Executando el caso '/task/student//cases/nombre_largo' (sin valgrind)...
-[=>] Command line: ./tp input_extremely_long_filename.txt
-
-real    0m0.003s
-user    0m0.002s
-sys     0m0.000s
-
-[=>] Executando el caso '/task/student//cases/tda' (sin valgrind)...
-[=>] Command line: ./tp input_tda.txt
-
-real    0m0.003s
-user    0m0.001s
-sys     0m0.002s
+[...]
 
 [=>] Executando el caso '/task/student//cases/una_palabra' (sin valgrind)...
 [=>] Command line: ./tp input_single_word.txt
@@ -472,74 +424,9 @@ user    0m0.954s
 sys     0m0.146s
 
 Valgrind no encontro errores.
-[=>] Executando el caso '/task/student//cases/entrada_estandar' (con valgrind)...
-[=>] Command line: /usr/bin/valgrind
-                --tool=memcheck
-                --leak-check=full --leak-resolution=med --show-reachable=yes
-                --trace-children=yes
-                --track-fds=yes
-                --track-origins=no
-                --time-stamp=yes --num-callers=20
-                --error-exitcode=42
-                --log-file=__valgrind__
-                --suppressions=/task/student/suppressions.txt ./tp
 
-real    0m1.177s
-user    0m0.999s
-sys     0m0.098s
+[...]
 
-Valgrind no encontro errores.
-[=>] Executando el caso '/task/student//cases/lenguage_c' (con valgrind)...
-[=>] Command line: /usr/bin/valgrind
-                --tool=memcheck
-                --leak-check=full --leak-resolution=med --show-reachable=yes
-                --trace-children=yes
-                --track-fds=yes
-                --track-origins=no
-                --time-stamp=yes --num-callers=20
-                --error-exitcode=42
-                --log-file=__valgrind__
-                --suppressions=/task/student/suppressions.txt ./tp input_c.txt
-
-real    0m1.094s
-user    0m0.936s
-sys     0m0.090s
-
-Valgrind no encontro errores.
-[=>] Executando el caso '/task/student//cases/nombre_largo' (con valgrind)...
-[=>] Command line: /usr/bin/valgrind
-                --tool=memcheck
-                --leak-check=full --leak-resolution=med --show-reachable=yes
-                --trace-children=yes
-                --track-fds=yes
-                --track-origins=no
-                --time-stamp=yes --num-callers=20
-                --error-exitcode=42
-                --log-file=__valgrind__
-                --suppressions=/task/student/suppressions.txt ./tp input_extremely_long_filename.txt
-
-real    0m1.059s
-user    0m0.881s
-sys     0m0.122s
-
-Valgrind no encontro errores.
-[=>] Executando el caso '/task/student//cases/tda' (con valgrind)...
-[=>] Command line: /usr/bin/valgrind
-                --tool=memcheck
-                --leak-check=full --leak-resolution=med --show-reachable=yes
-                --trace-children=yes
-                --track-fds=yes
-                --track-origins=no
-                --time-stamp=yes --num-callers=20
-                --error-exitcode=42
-                --log-file=__valgrind__
-                --suppressions=/task/student/suppressions.txt ./tp input_tda.txt
-
-real    0m1.170s
-user    0m1.004s
-sys     0m0.098s
-
-Valgrind no encontro errores.
 [=>] Executando el caso '/task/student//cases/una_palabra' (con valgrind)...
 [=>] Command line: /usr/bin/valgrind
                 --tool=memcheck
@@ -585,29 +472,32 @@ Comparando las salidas con las salidas esperadas...
 
 
 [Error] Se encontraron diferencias entre las salidas obtenidas y las esperadas.
-```
 
+Finalizando...
+Parece que no has superado todos los casos. Prueba tu trabajo localmente, bloque a bloque y revisa el enunciado. Ayudate de GDB y Valgrind.
+```
+El SERCOM nos permite identificar el error, al correr las pruebas publicas y compararlas con el resultado esperado. Vemos que para las pruebas "Invalid File" y "Single Word" los resultados obtenidos son distintos a los esperados por lo que el codigo no pasa estas pruebas. **AGREGAR ALGO MAS?**
+
+c. A continuación vemos la ejecucción del comando **hexdump**:
+![paso_5](https://github.com/chiabauni/TP0/blob/main/paso_5.png)
+El ultimo caracter del archivo input_single_word.txt es **AGREGAR EXPLICACION**
+
+d. A continuación vemos la ejecucción con **gdb**:
+![gdb_1](https://github.com/chiabauni/TP0/blob/main/gdb_1.png)
+![gdb_2](https://github.com/chiabauni/TP0/blob/main/gdb_2.png)
+![gdb_3](https://github.com/chiabauni/TP0/blob/main/gdb_3.png)
+![gdb_4](https://github.com/chiabauni/TP0/blob/main/gdb_4.png)
+![gdb_5](https://github.com/chiabauni/TP0/blob/main/gdb_5.png)
+![gdb_6](https://github.com/chiabauni/TP0/blob/main/gdb_6.png)
 
 ### Paso 6: SERCOM - Entrega exitosa
-Diferencias entre el paso 5 y el paso6:
+
+a. Las correcciones realizadas respecto a la versión anterior son:
+* Se modifica el valor definido para el ERROR, en el paso 5 es -1 y en el paso 6 es 1.
+* Se reemplaza el const char* con los delimitadores de palabras y se remplaza por la palabra DELIM_WORDS definida con las puntuaciones que delimitan las palabras.
+* Se cambia la logica de la funcion "wordscounter_next_state()" permitiendo contar una palabra cunado el caracter siguiente es "\n" y **CHEQUEAR SI CAMBIA ALGO MAS**
+
 ```
-4c4
-< #include "paso5_wordscounter.h"
----
-> #include "paso6_wordscounter.h"
-7c7
-< #define ERROR -1
----
-> #define ERROR 1
-1c1
-< #include "paso5_wordscounter.h"
----
-> #include "paso6_wordscounter.h"
-9a10
-> #define DELIM_WORDS " ,.;:\n"
-35,36d35
-<     const char* delim_words = " ,.;:\n";
-< 
 38,41c37,41
 <     if (c == EOF) {
 <         next_state = STATE_FINISHED;
@@ -631,224 +521,9 @@ Diferencias entre el paso 5 y el paso6:
 48a53
 > 
 ```
+b. A continuación vemos todas las entregas realizadas, tanto exitosas como fallidas:
+![Submission History](https://github.com/chiabauni/TP0/blob/main/Submission History.png)
 
-Error del SERCOM:
-```
-Desempaquetando y compilando el codigo...
-
-Descomprimiendo el codigo 'source_unsafe.zip'...
-Archive:  source_unsafe.zip
-  inflating: source_unsafe/paso6_main.c
-  inflating: source_unsafe/paso6_wordscounter.c
-  inflating: source_unsafe/paso6_wordscounter.h
-Compilando el codigo...
-  CC  paso6_wordscounter.o
-  CC  paso6_main.o
-  LD  tp
-
-real    0m0.666s
-user    0m0.241s
-sys     0m0.156s
-
-Verificando el codigo...
-
-Done processing /task/student//source_unsafe/paso6_main.c
-Done processing /task/student//source_unsafe/paso6_wordscounter.c
-Done processing /task/student//source_unsafe/paso6_wordscounter.h
-
-Desempaquetando los casos publicos...
-Executando los casos publicos (sin valgrind)...
-
-[=>] Executando el caso '/task/student//cases/archivo_invalido' (sin valgrind)...
-[=>] Command line: ./tp invalid_file
-
-real    0m0.006s
-user    0m0.004s
-sys     0m0.000s
-
-[=>] Executando el caso '/task/student//cases/entrada_estandar' (sin valgrind)...
-[=>] Command line: ./tp
-
-real    0m0.003s
-user    0m0.001s
-sys     0m0.001s
-
-[=>] Executando el caso '/task/student//cases/lenguage_c' (sin valgrind)...
-[=>] Command line: ./tp input_c.txt
-
-real    0m0.006s
-user    0m0.005s
-sys     0m0.000s
-
-[=>] Executando el caso '/task/student//cases/nombre_largo' (sin valgrind)...
-[=>] Command line: ./tp input_extremely_long_filename.txt
-
-real    0m0.003s
-user    0m0.003s
-sys     0m0.000s
-
-[=>] Executando el caso '/task/student//cases/tda' (sin valgrind)...
-[=>] Command line: ./tp input_tda.txt
-
-real    0m0.003s
-user    0m0.003s
-sys     0m0.000s
-
-[=>] Executando el caso '/task/student//cases/una_palabra' (sin valgrind)...
-[=>] Command line: ./tp input_single_word.txt
-
-real    0m0.003s
-user    0m0.002s
-sys     0m0.000s
-
-Desempaquetando las salidas esperadas de los casos publicos...
-Comparando las salidas con las salidas esperadas...
-
-[=>] Comparando archivo_invalido/__return_code__...
-[=>] Comparando archivo_invalido/__stdout__...
-[=>] Comparando entrada_estandar/__return_code__...
-[=>] Comparando entrada_estandar/__stdout__...
-[=>] Comparando lenguage_c/__return_code__...
-[=>] Comparando lenguage_c/__stdout__...
-[=>] Comparando nombre_largo/__return_code__...
-[=>] Comparando nombre_largo/__stdout__...
-[=>] Comparando tda/__return_code__...
-[=>] Comparando tda/__stdout__...
-[=>] Comparando una_palabra/__return_code__...
-[=>] Comparando una_palabra/__stdout__...
-No se encontraron diferencias.
-
-Executando los casos publicos (con valgrind)...
-
-[=>] Executando el caso '/task/student//cases/archivo_invalido' (con valgrind)...
-[=>] Command line: /usr/bin/valgrind
-                --tool=memcheck
-                --leak-check=full --leak-resolution=med --show-reachable=yes
-                --trace-children=yes
-                --track-fds=yes
-                --track-origins=no
-                --time-stamp=yes --num-callers=20
-                --error-exitcode=42
-                --log-file=__valgrind__
-                --suppressions=/task/student/suppressions.txt ./tp invalid_file
-
-real    0m1.179s
-user    0m0.927s
-sys     0m0.140s
-
-Valgrind no encontro errores.
-[=>] Executando el caso '/task/student//cases/entrada_estandar' (con valgrind)...
-[=>] Command line: /usr/bin/valgrind
-                --tool=memcheck
-                --leak-check=full --leak-resolution=med --show-reachable=yes
-                --trace-children=yes
-                --track-fds=yes
-                --track-origins=no
-                --time-stamp=yes --num-callers=20
-                --error-exitcode=42
-                --log-file=__valgrind__
-                --suppressions=/task/student/suppressions.txt ./tp
-
-real    0m1.118s
-user    0m0.938s
-sys     0m0.105s
-
-Valgrind no encontro errores.
-[=>] Executando el caso '/task/student//cases/lenguage_c' (con valgrind)...
-[=>] Command line: /usr/bin/valgrind
-                --tool=memcheck
-                --leak-check=full --leak-resolution=med --show-reachable=yes
-                --trace-children=yes
-                --track-fds=yes
-                --track-origins=no
-                --time-stamp=yes --num-callers=20
-                --error-exitcode=42
-                --log-file=__valgrind__
-                --suppressions=/task/student/suppressions.txt ./tp input_c.txt
-
-real    0m1.116s
-user    0m0.957s
-sys     0m0.097s
-
-Valgrind no encontro errores.
-[=>] Executando el caso '/task/student//cases/nombre_largo' (con valgrind)...
-[=>] Command line: /usr/bin/valgrind
-                --tool=memcheck
-                --leak-check=full --leak-resolution=med --show-reachable=yes
-                --trace-children=yes
-                --track-fds=yes
-                --track-origins=no
-                --time-stamp=yes --num-callers=20
-                --error-exitcode=42
-                --log-file=__valgrind__
-                --suppressions=/task/student/suppressions.txt ./tp input_extremely_long_filename.txt
-
-real    0m1.096s
-user    0m0.902s
-sys     0m0.122s
-
-Valgrind no encontro errores.
-[=>] Executando el caso '/task/student//cases/tda' (con valgrind)...
-[=>] Command line: /usr/bin/valgrind
-                --tool=memcheck
-                --leak-check=full --leak-resolution=med --show-reachable=yes
-                --trace-children=yes
-                --track-fds=yes
-                --track-origins=no
-                --time-stamp=yes --num-callers=20
-                --error-exitcode=42
-                --log-file=__valgrind__
-                --suppressions=/task/student/suppressions.txt ./tp input_tda.txt
-
-real    0m1.163s
-user    0m1.001s
-sys     0m0.100s
-
-Valgrind no encontro errores.
-[=>] Executando el caso '/task/student//cases/una_palabra' (con valgrind)...
-[=>] Command line: /usr/bin/valgrind
-                --tool=memcheck
-                --leak-check=full --leak-resolution=med --show-reachable=yes
-                --trace-children=yes
-                --track-fds=yes
-                --track-origins=no
-                --time-stamp=yes --num-callers=20
-                --error-exitcode=42
-                --log-file=__valgrind__
-                --suppressions=/task/student/suppressions.txt ./tp input_single_word.txt
-
-real    0m1.131s
-user    0m0.938s
-sys     0m0.130s
-
-Valgrind no encontro errores.
-
-Comparando las salidas con las salidas esperadas...
-
-[=>] Comparando archivo_invalido/__return_code__...
-[=>] Comparando archivo_invalido/__stdout__...
-[=>] Comparando entrada_estandar/__return_code__...
-[=>] Comparando entrada_estandar/__stdout__...
-[=>] Comparando lenguage_c/__return_code__...
-[=>] Comparando lenguage_c/__stdout__...
-[=>] Comparando nombre_largo/__return_code__...
-[=>] Comparando nombre_largo/__stdout__...
-[=>] Comparando tda/__return_code__...
-[=>] Comparando tda/__stdout__...
-[=>] Comparando una_palabra/__return_code__...
-[=>] Comparando una_palabra/__stdout__...
-No se encontraron diferencias.
-
-Desempaquetando los casos privados...
-Executando los casos privados (sin valgrind)...
-Desempaquetando las salidas esperadas de los casos privados...
-Comparando las salidas con las salidas esperadas...
-Executando los casos privados (con valgrind)...
-Comparando las salidas con las salidas esperadas...
-Finalizando...
-
-Excelente. Todos los casos de pruebas, publicos y privados, fueron superados con exito.
-```
-
-
-### Paso 7: SERCOM - Revisión de la entrega
+c. A continuación vemos la ejecucción de la prueba "single Word" con las distintas variables indicadas:
+![paso_6](https://github.com/chiabauni/TP0/blob/main/paso_6.png)
+![paso_6.1](https://github.com/chiabauni/TP0/blob/main/paso_6.1.png)
