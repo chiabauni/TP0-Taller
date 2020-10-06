@@ -8,18 +8,22 @@ a)Primero compilo y ejecuto una aplicación simple ISO C que imprima por pantall
 ![paso0](https://github.com/chiabauni/TP0/blob/main/paso0.png)
 
 b)¿Para qué sirve Valgrind?¿Cuáles son sus opciones más comunes? 
-Valgrind nos permite usar distintas herramientas a la hora de revisar el uso de memoria de nuestro código. Una de las herramienta es hacer chequeos de memoria en el programa y nos avisa si hay o no pérdida de memoria y por ende si estamos liberando la memoria dinámica utilizada correctamente. Tambien nos permite saber si estamos haciendo un correcto uso de la memoria a nuestra disposición.**Chequear respuestaaa**
+Valgrind nos permite usar distintas herramientas a la hora de revisar el uso de memoria de nuestro código. Una de las herramienta es hacer chequeos de memoria en el programa y nos avisa si hay o no pérdida de memoria y por ende si estamos liberando la memoria dinámica utilizada correctamente. Tambien nos permite saber si estamos haciendo un correcto uso de la memoria a nuestra disposición.
 
-c)¿Qué respresenta el sizeof()?¿Cuál sería el valor de salida de sizeof(char) y sizeof(int)? El sizeof() respresenta la cantidad de bytes que ocupa el tipo de dato que se encuntra entre parentesis. El valor de salida de sizeof() varia segun el compilador y la plataforma que estemos utilizando. EN nuestro caso utilizando gcc obtenemos que sizeof(char)=1 y sizeof(int)=4.
+c)¿Qué respresenta el sizeof()?¿Cuál sería el valor de salida de sizeof(char) y sizeof(int)? El sizeof() respresenta la cantidad de bytes que ocupa el tipo de dato que se encuentra entre paréntesis. El valor de salida de sizeof() varia según el compilador y la plataforma que estemos utilizando. En el entorno en el que trabajamos y utilizando gcc obtenemos que sizeof(char)=1 y sizeof(int)=4.
 
-d)¿El sizeof() de una struct de C es igual a la suma del sizeof() de cada uno sus elementos? Justifique mediante un ejemplo. No necesariamente, puede ocurrir que el sizeof() de una struct de C sea mayor a la suma del sizeof() de cada uno sus elementos. Lo podemos ver en el siguiente ejemplo:
+d)¿El sizeof() de una struct de C es igual a la suma del sizeof() de cada uno sus elementos? No necesariamente, puede ocurrir que el sizeof() de una struct de C sea mayor a la suma del sizeof() de cada uno sus elementos. Lo podemos ver en el siguiente ejemplo:
 ![paso0_1](https://github.com/chiabauni/TP0/blob/main/paso0_2.png)
 ![paso0_2](https://github.com/chiabauni/TP0/blob/main/paso0_1.png)
 
 Por lo que podemos concluir que el sizeof() de una struct de C es mayor o igual a la suma del sizeof() de cada uno sus elementos.
 
-e)Investigar la existencia de los archivos estándar: STDIN, STDOUT, STDERR. Explicar brevemente su uso y cómo redirigirlos en caso de ser necesario (caracteres > y <) y comoconectar la salida estándar de un proceso a la entrada estándar de otro con un pipe (carácter|).
-**Agregar esta respuesta**
+e)Investigar la existencia de los archivos estándar: STDIN, STDOUT, STDERR. Explicar brevemente su uso y cómo redirigirlos en caso de ser necesario (caracteres > y <) y como conectar la salida estándar de un proceso a la entrada estándar de otro con un pipe (carácter|).
+STDIN: Es la entrada estándar y consiste en el texto(o archivos) que se ingresa como input a través del teclado.
+STDOUT: Es la salida estándar, la vía por donde, luego de su correcta ejecucción, se devuelven los datos.
+STDERR: Es el error estándar, la vía por donde, luego de una ejecucción fallida, se devuelven un mensaje de error.
+En caso de ser necesario se puede usar un archivo de texto para generar entradas. Permitiendo utilizar entradas sin necesitar ingresar a mano en el teclado el input, sino proveniendo de un archivo. Esto se logra con el siguiente comando:  ./ ejecutable.exe < input.txt. De misma manera se puede redirigir el stdout y el stderr, se los redirige a un archivo en vez de mostrarse por pantalla. Por defecto, el símbolo > funciona con stdout, aunque se pueden utilizar numeros antes del simbolo para indicar cual redirigir. Con el siguiente comando se redirige el flujo de stderr a un archivo de texto:  ./ ejecutable.exe 2 > error.txt. Con el siguiente comando se redirige el flujo de stdout a un archivo de texto:  ./ ejecutable.exe 1 > error.txt.
+El siguiente simbolo | entre los dos comandos se llama pipe. El pipe permite que usemos la salida del comando a la izquierda como entrada al comando de la derecha. De la misma manera se pueden encadenar pipes consecutivamente.
 
 
 ### Paso 1: SERCOM - Errores de generación y normas de programación
@@ -44,20 +48,35 @@ Done processing /task/student//source_unsafe/paso1_main.c
 Total errors found: 11
 ```
 1. Problema en la linea 27 del documento paso1_wordscounter.c hace la siguiente corrección:
+
 ![1](https://github.com/chiabauni/TP0/blob/main/1.png)
+
 2. Problema en la linea 41 del documento paso1_wordscounter.c hace la siguiente corrección:
+
 ![2](https://github.com/chiabauni/TP0/blob/main/2.png)
+
 3. Problema en la linea 47 del documento paso1_wordscounter.c hace la siguiente corrección:
+
 ![3](https://github.com/chiabauni/TP0/blob/main/3.png)
+
 4. Problema en la linea 48 del documento paso1_wordscounter.c hace la siguiente corrección:
+
 ![4](https://github.com/chiabauni/TP0/blob/main/4.png)
+
 5. Problema en la linea 53 del documento paso1_wordscounter.c hace la siguiente corrección:
+
 ![5](https://github.com/chiabauni/TP0/blob/main/5.png)
+
 6. Problema en la linea 5 del documento paso1_wordscounter.h hace la siguiente corrección:
+
 ![6](https://github.com/chiabauni/TP0/blob/main/6.png)
+
 7. Problema en la linea 12 del documento paso1_main.c hace la siguiente corrección:
+
 ![7](https://github.com/chiabauni/TP0/blob/main/7.png)
+
 8. Problema en la linea 15 del documento paso1_main.c hace la siguiente corrección:
+
 ![8](https://github.com/chiabauni/TP0/blob/main/8.png)
 
 b. A continuación mostramos los errores de generación del ejecutable detectados por el SERCOM: 
@@ -93,16 +112,16 @@ user    0m0.013s
 sys     0m0.017s
 [Error] Fallo la compilacion del codigo en 'source_unsafe.zip'. Codigo de error 2
 ```
-El compilador tiene toda la informacion para generar codigo objeto pero no puede validarlo por que no se incluyo el archivo .h con las firmas de las funciones y declaraciones de las estructuras en el main.c. Esto provoca que el compilador no sepa que el struct wordscounter_t existe o si es un typo del programador(Error:"error: unknown type name ‘wordscounter_t’"). Tampoco sabe que las funciones wordscounter_create(), wordscounter_process(), wordscounter_get_words(), wordscounter_destroy() existen y cuantos argumentos reciben y cuales son sus tipos(Error:"implicit declaration of function ‘funcion’").
-Sin la informacion brindada por el .h el compilador no puede chequear la sintaxis del codigo y por lo tanto tendremos estos errores.
+El compilador tiene toda la información para generar código objeto pero no puede validarlo por que no se incluyó el archivo .h con las firmas de las funciones y declaraciones de las estructuras en el main.c. Esto provoca que el compilador no sepa que el ¨struct wordscounter_t¨ existe o si es un typo del programador(Error:"error: unknown type name ‘wordscounter_t’"). Tampoco sabe que las funciones wordscounter_create(), wordscounter_process(), wordscounter_get_words(), wordscounter_destroy() existen, cuantos argumentos reciben y cuales son sus tipos(Error:"implicit declaration of function ‘funcion’").
+Sin la información brindada por el .h el compilador no puede chequear la sintaxis del código y por lo tanto tendremos estos errores.
 
-c.**¿El sistema reportó algún WARNING? ¿Por qué?**
+c.¿El sistema reportó algún WARNING? ¿Por qué? El sistema no reporta ningún warning ya que se compila con el flag -Werror (todos los warnings son considerados como errores). Por lo que todos los warnings se convierten en errores.
 
 ### Paso 2: SERCOM - Errores de generación 2
 
 a. Las correcciones realizadas respecto a la versión anterior son:
 * Se corrigieron todos los problemas de estilo detectados en el paso 1.
-* Se incluyo el "paso2_wordscounter.h" en el main del paso 2.
+* Se incluyó el "paso2_wordscounter.h" en el main del paso 2.
 * El tipo wordscounter_t paso de almacenar la cantidad de palabras procesadas de un archivo en el paso 1 a procesar cantidad de palabras dentro de un archivo en el paso 2.
 
 b. A continuación mostramos la correcta ejecución de la verificación de estilo de programación detectados por el SERCOM:
@@ -165,7 +184,7 @@ user    0m0.035s
 sys     0m0.038s
 [Error] Fallo la compilacion del codigo en 'source_unsafe.zip'. Codigo de error 2
 ```
-El linker genera en el archivo "paso2_wordscounter.h" los errores "unknown type name ‘size_t’" ya que la definicion de "size_t" se encuentra en la biblioteca <stddef.h> y esta no fue incluida en el archivo .h; tambien genera "unknown type name ‘FILE’" ya que la definicion de "FILE" se encuentra en la biblioteca <stdio.h> y esta no fue incluida en el archivo .h. Ademas el linker genera en el archivo "paso2_wordscounter.c" los errores "implicit declaration of function ‘malloc’" y "incompatible implicit declaration of built-in function ‘malloc’" esto se debe a que la declaracion y definicion de esta funcion se encuntran en la libreria <stdlib.h> la cual no esta incluida en el archivo. Finalmente el linker genera el error "conflicting types for ‘wordscounter_get_words’" **EXPLICAR DE DONDE SALE ESTE ERROR**.
+El linker genera en el archivo "paso2_wordscounter.h" los errores "unknown type name ‘size_t’" ya que la definición de "size_t" se encuentra en la biblioteca <stddef.h> y esta no fue incluida en el archivo .h; también genera "unknown type name ‘FILE’" ya que la definición de "FILE" se encuentra en la biblioteca <stdio.h> y esta no fue incluida en el archivo .h. Además el linker genera en el archivo "paso2_wordscounter.c" los errores "implicit declaration of function ‘malloc’" y "incompatible implicit declaration of built-in function ‘malloc’" esto se debe a que la declaración y definición de esta función se encuntran en la libreria <stdlib.h> la cual no está incluida en el archivo. Finalmente el linker genera el error "conflicting types for ‘wordscounter_get_words’" esto se debe a que cuando el compilador no reconoce el tipo size_t a la hora de la declaración lo que difiere de la definición que es el tipo size_t(que) **TERMINAR DE REDACTAR**
 
 
 ### Paso 3: SERCOM - Errores de generación 3
@@ -203,12 +222,12 @@ Done processing /task/student//source_unsafe/paso3_main.c
 Done processing /task/student//source_unsafe/paso3_wordscounter.c
 Done processing /task/student//source_unsafe/paso3_wordscounter.h
 ```
-El linker genera en el archivo "paso3_main.o" el error "undefined reference to 'wordscounter_destroy'" esto se debe a que la funcion 'wordscounter_destroy' esta declarada en el archivo "paso3_wordscounter.h" pero no esta definida en el archivo "paso3_wordscounter.c" lo que genera un error a la hora de linkear la firma con la definicion(ya que esta ultima no existe). 
+El linker genera en el archivo "paso3_main.o" el error "undefined reference to 'wordscounter_destroy'" esto se debe a que la función 'wordscounter_destroy' está declarada en el archivo "paso3_wordscounter.h" pero no está definida en el archivo "paso3_wordscounter.c" lo que genera un error a la hora de linkear la firma con la definición(ya que esta última no existe). 
 
 
 ### Paso 4: SERCOM - Memory Leaks y Buffer Overflows
 a. Las correcciones realizadas respecto a la versión anterior son:
-* Se agrega al archivo "paso4_wordscounter.c" del paso4 la definicion de la funcion 'wordscounter_destroy'.
+* Se agrega al archivo "paso4_wordscounter.c" del paso4 la definición de la funcion 'wordscounter_destroy'.
 
 b. A continuación mostramos los errores detectados por Valgrind de la prueba "TDA" detectados por el SERCOM: 
 ```
@@ -283,7 +302,7 @@ sys     0m0.109s
 ==00:00:00:01.080 59== For lists of detected and suppressed errors, rerun with: -s
 ==00:00:00:01.080 59== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
 ```
-En esta prueba podemos ver que hay dos errores que generan que se pierda memoria, vemos que de las 218 veces que resevamos memoria unicamente se liberó 2 veces memoria. Por un lado tenemos 472 bytes en 1 bloque que son perdida y en el Heap Summary vemos que ese error se encuentra en la linea 14 del archivo "paso4_main.c". En esta linea encontramos "input = fopen(filepath, "r");" el error surge al no incluir luego de esta linea un "fclose(input)" para cerrar el archivo y no perder memoria. Luego, tenemos que 1,505 en 215 bloques se pierden y en el Heap Summary vemos que ese error se encuentra en la linea 35 del archivo "paso4_wordscounter.c". En esta linea encontramos "char* delim_words = malloc(7 * sizeof(char));" el error surge al no liberar la memoria reservada con "free(delim_words)" al no liberar la memoria pedida por el malloc, se genera una enorme perdidad de memoria.
+En esta prueba podemos ver que hay dos errores que generan que se pierda memoria, vemos que de las 218 veces que resevamos memoria únicamente se liberó 2 veces memoria. Por un lado tenemos 472 bytes en 1 bloque que son perdida, en el Heap Summary vemos que ese error se encuentra en la linea 14 del archivo "paso4_main.c". En esta linea encontramos "input = fopen(filepath, "r");" el error surge al no incluir luego de esta linea un "fclose(input)" para cerrar el archivo y no perder memoria. Luego, tenemos que 1,505 bytes en 215 bloques se pierden, en el Heap Summary vemos que ese error se encuentra en la linea 35 del archivo "paso4_wordscounter.c". En esta linea encontramos "char* delim_words = malloc(7 * sizeof(char));" el error surge al no liberar la memoria reservada con "free(delim_words)" por no liberar la memoria pedida por el malloc, se genera una enorme perdidad de memoria.
 
 c. A continuación mostramos los errores detectados por Valgrind de la prueba "Long Filename" detectados por el SERCOM:
 
@@ -340,20 +359,20 @@ sys     0m0.133s
 ==00:00:00:01.057 47== For lists of detected and suppressed errors, rerun with: -s
 ==00:00:00:01.057 47== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 ```
-En este caso vemos que no hay ninguna perdida de memoria, pero si hay un error: buffer overflow. Esto se debe a la linea 13 del archivo "paso4_main.c" donde encontramos "memcpy(filepath, argv[1], strlen(argv[1]) + 1);". La funcion memcpy sirve para copiar los bytes de la ubicación apuntada por la argv[1] directamente al bloque de memoria apuntado por filepath. El problema que puede surgir al utilizar esta funcion es que el buffer fuente puede llegar a tener un tamaño mayor que el buffer de destino y asi generar un overflow.
+En este caso vemos que hay un error: buffer overflow. Esto se debe a la linea 13 del archivo "paso4_main.c" donde encontramos "memcpy(filepath, argv[1], strlen(argv[1]) + 1);". La función memcpy sirve para copiar los bytes de la ubicación apuntada por la argv[1] directamente al bloque de memoria apuntado por filepath. El problema que puede surgir al utilizar esta función es que el buffer fuente puede llegar a tener un tamaño mayor que el buffer de destino y asi generar un overflow. Esto es lo que ocurre en nuestro caso.
 
-d.¿Podría solucionarse este error utilizando la función strncpy? ¿Qué hubiera ocurrido con la ejecución de la prueba?
+d.**¿Podría solucionarse este error utilizando la función strncpy? ¿Qué hubiera ocurrido con la ejecución de la prueba?**
 
 e.Explicar de qué se trata un segmentation fault y un buffer overflow.
-
-
+El segmentation fault es un error que se genera por acceder a memoria que no tenemos permitido utilizar. La generación de este error permite que no se corrompa la memoria ni se generen ciertos errores de manejo de memoria.
+El buffer overflow ocurre cuando un programa no controla la cantidad de datos que se escriben sobre la memoria y se excede el uso de esta misma. La memoria es asignada por el sistema operativo, por lo que el overflow termina sobreescribiendo datos en el bloque de memoria contiguo al que fue asignado inicialmente.
 
 ### Paso 5: SERCOM - Código de retorno y salida estándar
 
 a. Las correcciones realizadas respecto a la versión anterior son:
-* Se quita el memcpy dejando unicamente la funcion fopen.
-* Se agrega la funcion fclose(dentro de un if) para abrir y cerrar correctamente los archivos.
-* Se elimina el malloc para guardar memoria para un vector con los delimitadores de palabras y se remplaza por un const char* con las puntuaciones.
+* Se quita el memcpy dejando únicamente la función fopen.
+* Se agrega la función fclose(dentro de un if) para abrir y cerrar correctamente los archivos.
+* Se elimina el malloc para guardar memoria para un vector con los delimitadores de palabras y se remplaza por un const char* con los mismos delimitadores de palabras.
 
 b. A continuación mostramos los errores detectados de la prueba "Invalid File" y "Single Word" detectados por el SERCOM: 
 ```
@@ -489,6 +508,8 @@ d. A continuación vemos la ejecucción con **gdb**:
 ![gdb_4](https://github.com/chiabauni/TP0/blob/main/gdb_4.png)
 ![gdb_5](https://github.com/chiabauni/TP0/blob/main/gdb_5.png)
 ![gdb_6](https://github.com/chiabauni/TP0/blob/main/gdb_6.png)
+**AGREGAR PORQUE NO SE DETUVO EL DEBUGGER EN EL BREAK POINT**
+
 
 ### Paso 6: SERCOM - Entrega exitosa
 
@@ -524,6 +545,6 @@ a. Las correcciones realizadas respecto a la versión anterior son:
 b. A continuación vemos todas las entregas realizadas, tanto exitosas como fallidas:
 ![Submission History](https://github.com/chiabauni/TP0/blob/main/Submission History.png)
 
-c. A continuación vemos la ejecucción de la prueba "single Word" con las distintas variables indicadas:
+c. A continuación vemos la ejecucción de la prueba "Single Word" con las distintas variables indicadas:
 ![paso_6](https://github.com/chiabauni/TP0/blob/main/paso_6.png)
 ![paso_6.1](https://github.com/chiabauni/TP0/blob/main/paso_6.1.png)
