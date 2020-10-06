@@ -524,7 +524,7 @@ a. Las correcciones realizadas respecto a la versión anterior son:
 * Se cambia la logica de la funcion "wordscounter_next_state()" permitiendo contar una palabra cunado el caracter siguiente es "\n" 
 
 b. A continuación vemos todas las entregas realizadas, tanto exitosas como fallidas:
-![Submission History](https://github.com/chiabauni/TP0/blob/main/Submission History.png)
+![Submission History](https://github.com/chiabauni/TP0/blob/main/Submission.png)
 
 c. A continuación vemos la ejecucción de la prueba "Single Word" con las distintas variables indicadas:
 ![paso_6](https://github.com/chiabauni/TP0/blob/main/paso_6.png)
