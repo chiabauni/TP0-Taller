@@ -7,18 +7,18 @@
 a)Primero compilo y ejecuto una aplicación simple ISO C que imprima por pantalla el mensaje“Hola Mundo” y finalice retornando 0 (cero). A continuación se encuntra la ejecución de dicha aplicación con y sin Valgrind:
 ![paso0](https://github.com/chiabauni/TP0/blob/main/paso0.png)
 
-b)<em>¿Para qué sirve Valgrind?¿Cuáles son sus opciones más comunes?<em> 
+b)*¿Para qué sirve Valgrind?¿Cuáles son sus opciones más comunes?*
 Valgrind nos permite usar distintas herramientas a la hora de revisar el uso de memoria de nuestro código. Una de las herramienta es hacer chequeos de memoria en el programa y nos avisa si hay o no pérdida de memoria y por ende si estamos liberando la memoria dinámica utilizada correctamente. Tambien nos permite saber si estamos haciendo un correcto uso de la memoria a nuestra disposición.
 
-c)<em>¿Qué respresenta el sizeof()?¿Cuál sería el valor de salida de sizeof(char) y sizeof(int)?<em> El sizeof() respresenta la cantidad de bytes que ocupa el tipo de dato que se encuentra entre paréntesis. El valor de salida de sizeof() varia según el compilador y la plataforma que estemos utilizando. En el entorno en el que trabajamos y utilizando gcc obtenemos que sizeof(char)=1 y sizeof(int)=4.
+c)*¿Qué respresenta el sizeof()?¿Cuál sería el valor de salida de sizeof(char) y sizeof(int)?* El sizeof() respresenta la cantidad de bytes que ocupa el tipo de dato que se encuentra entre paréntesis. El valor de salida de sizeof() varia según el compilador y la plataforma que estemos utilizando. En el entorno en el que trabajamos y utilizando gcc obtenemos que sizeof(char)=1 y sizeof(int)=4.
 
-d)<em>¿El sizeof() de una struct de C es igual a la suma del sizeof() de cada uno sus elementos?<em> No necesariamente, puede ocurrir que el sizeof() de una struct de C sea mayor a la suma del sizeof() de cada uno sus elementos. Lo podemos ver en el siguiente ejemplo:
+d)*¿El sizeof() de una struct de C es igual a la suma del sizeof() de cada uno sus elementos?* No necesariamente, puede ocurrir que el sizeof() de una struct de C sea mayor a la suma del sizeof() de cada uno sus elementos. Lo podemos ver en el siguiente ejemplo:
 ![paso0_1](https://github.com/chiabauni/TP0/blob/main/paso0_2.png)
 ![paso0_2](https://github.com/chiabauni/TP0/blob/main/paso0_1.png)
 
 Por lo que podemos concluir que el sizeof() de una struct de C es mayor o igual a la suma del sizeof() de cada uno sus elementos.
 
-e)<em>Investigar la existencia de los archivos estándar: STDIN, STDOUT, STDERR. Explicar brevemente su uso y cómo redirigirlos en caso de ser necesario (caracteres > y <) y como conectar la salida estándar de un proceso a la entrada estándar de otro con un pipe (carácter|).<em>
+e)*Investigar la existencia de los archivos estándar: STDIN, STDOUT, STDERR. Explicar brevemente su uso y cómo redirigirlos en caso de ser necesario (caracteres > y <) y como conectar la salida estándar de un proceso a la entrada estándar de otro con un pipe (carácter|).*
 STDIN: Es la entrada estándar y consiste en el texto(o archivos) que se ingresa como input a través del teclado.
 STDOUT: Es la salida estándar, la vía por donde, luego de su correcta ejecucción, se devuelven los datos.
 STDERR: Es el error estándar, la vía por donde, luego de una ejecucción fallida, se devuelven un mensaje de error.
@@ -115,7 +115,7 @@ sys     0m0.017s
 El compilador tiene toda la información para generar código objeto pero no puede validarlo por que no se incluyó el archivo .h con las firmas de las funciones y declaraciones de las estructuras en el main.c. Esto provoca que el compilador no sepa que el ¨struct wordscounter_t¨ existe o si es un typo del programador(Error:"error: unknown type name ‘wordscounter_t’"). Tampoco sabe que las funciones wordscounter_create(), wordscounter_process(), wordscounter_get_words(), wordscounter_destroy() existen, cuantos argumentos reciben y cuales son sus tipos(Error:"implicit declaration of function ‘funcion’").
 Sin la información brindada por el .h el compilador no puede chequear la sintaxis del código y por lo tanto tendremos estos errores.
 
-c.<em>¿El sistema reportó algún WARNING? ¿Por qué?<em> El sistema no reporta ningún warning ya que se compila con el flag -Werror (todos los warnings son considerados como errores). Por lo que todos los warnings se convierten en errores.
+c.*¿El sistema reportó algún WARNING? ¿Por qué?* El sistema no reporta ningún warning ya que se compila con el flag -Werror (todos los warnings son considerados como errores). Por lo que todos los warnings se convierten en errores.
 
 ### Paso 2: SERCOM - Errores de generación 2
 
@@ -362,10 +362,10 @@ sys     0m0.133s
 ```
 En este caso vemos que hay un error: buffer overflow. Esto se debe a la linea 13 del archivo "paso4_main.c" donde encontramos "memcpy(filepath, argv[1], strlen(argv[1]) + 1);". La función memcpy sirve para copiar los bytes de la ubicación apuntada por la argv[1] directamente al bloque de memoria apuntado por filepath. El problema que puede surgir al utilizar esta función es que el buffer fuente puede llegar a tener un tamaño mayor que el buffer de destino y asi generar un overflow. Esto es lo que ocurre en nuestro caso.
 
-d.<em>¿Podría solucionarse este error utilizando la función strncpy? ¿Qué hubiera ocurrido con la ejecución de la prueba?<em>
+d.*¿Podría solucionarse este error utilizando la función strncpy? ¿Qué hubiera ocurrido con la ejecución de la prueba?*
 Lo que hace memcpy(void * destino, const void * fuente, size_t num) es copiar los valores de num bytes de la ubicación apuntada por la fuente directamente al bloque de memoria apuntado por el destino, obteniendo una copia binaria de los datos. Lo que hace strncpy(char * destino, const char * fuente, size_t num) es copiar el primer número de caracteres del origen al destino. No creo que sea una buena solución utilizar el strncpy ya que el problema que generó memcpy con el overflow a causa de que el buffer fuente sea mayor que el buffer de destino puede tambien ocurrir con esta función y obtendriamos el mismo error en la ejecución de la prueba. Probablemente sería mas eficiente directamente no copiar una cadena que nos provee el sistema operativo. Si usamos el strncpy sería fácil que nuestra prueba vuelva a fallar. 
 
-e.<em>Explicar de qué se trata un segmentation fault y un buffer overflow.<em>
+e.*Explicar de qué se trata un segmentation fault y un buffer overflow.*
 El segmentation fault es un error que se genera por acceder a memoria que no tenemos permitido utilizar. La generación de este error permite que no se corrompa la memoria ni se generen ciertos errores de manejo de memoria.
 El buffer overflow ocurre cuando un programa no controla la cantidad de datos que se escriben sobre la memoria y se excede el uso de esta misma. La memoria es asignada por el sistema operativo, por lo que el overflow termina sobreescribiendo datos en el bloque de memoria contiguo al que fue asignado inicialmente.
 
@@ -512,7 +512,7 @@ d. A continuación vemos la ejecucción con **gdb**:
 ![gdb_5](https://github.com/chiabauni/TP0/blob/main/gdb_5.png)
 ![gdb_6](https://github.com/chiabauni/TP0/blob/main/gdb_6.png)
 
-<em>¿Por qué motivo el debugger no se detuvo en el breakpoint de la línea 45: self->words++;?<em> 
+*¿Por qué motivo el debugger no se detuvo en el breakpoint de la línea 45: self->words++;?* 
 Esto se debe ya que en el caso que estamos analizando se trata de una palabra y luego el EOF. Este caso el caracter que le sigue no es ninguno de los que esta en la lista de delimitadores, pero no esta contemplado el caso de que luego de la primera palabra se encuntre el EOF. Por lo que nunca llega a la línea 45 del código en donde pusimos el breakpoint. 
 
 
