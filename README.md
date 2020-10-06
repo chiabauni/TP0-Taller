@@ -184,7 +184,8 @@ user    0m0.035s
 sys     0m0.038s
 [Error] Fallo la compilacion del codigo en 'source_unsafe.zip'. Codigo de error 2
 ```
-El linker genera en el archivo "paso2_wordscounter.h" los errores "unknown type name ‘size_t’" ya que la definición de "size_t" se encuentra en la biblioteca <stddef.h> y esta no fue incluida en el archivo .h; también genera "unknown type name ‘FILE’" ya que la definición de "FILE" se encuentra en la biblioteca <stdio.h> y esta no fue incluida en el archivo .h. Además el linker genera en el archivo "paso2_wordscounter.c" los errores "implicit declaration of function ‘malloc’" y "incompatible implicit declaration of built-in function ‘malloc’" esto se debe a que la declaración y definición de esta función se encuntran en la libreria <stdlib.h> la cual no está incluida en el archivo. Finalmente el linker genera el error "conflicting types for ‘wordscounter_get_words’" esto se debe a que cuando el compilador no reconoce el tipo size_t a la hora de la declaración lo que difiere de la definición que es el tipo size_t(que) **TERMINAR DE REDACTAR**
+El linker genera en el archivo "paso2_wordscounter.h" los errores "unknown type name ‘size_t’" ya que la definición de "size_t" se encuentra en la biblioteca <stddef.h> y esta no fue incluida en el archivo .h; también genera "unknown type name ‘FILE’" ya que la definición de "FILE" se encuentra en la biblioteca <stdio.h> y esta no fue incluida en el archivo .h. Además el linker genera en el archivo "paso2_wordscounter.c" los errores "implicit declaration of function ‘malloc’" y "incompatible implicit declaration of built-in function ‘malloc’" esto se debe a que la declaración y definición de esta función se encuntran en la libreria <stdlib.h> la cual no está incluida en el archivo. Finalmente el linker genera el error "conflicting types for ‘wordscounter_get_words’" esto se debe a que al no incluir en el archivo "paso2_wordscounter.h" la biblioteca en el cual esta definido "size_t" el compilador no sabe de que tipo es. En cambio en el archivo "paso2_wordscounter.c" sí se incluye la biblioteca donde "size_t" está definido. Por lo que queda una función declarada con un tipo de dato desconocido pero luego se define con el tipo "size_t" conocido. Por esta diferencia es que se genera el error.
+
 
 
 ### Paso 3: SERCOM - Errores de generación 3
@@ -361,7 +362,8 @@ sys     0m0.133s
 ```
 En este caso vemos que hay un error: buffer overflow. Esto se debe a la linea 13 del archivo "paso4_main.c" donde encontramos "memcpy(filepath, argv[1], strlen(argv[1]) + 1);". La función memcpy sirve para copiar los bytes de la ubicación apuntada por la argv[1] directamente al bloque de memoria apuntado por filepath. El problema que puede surgir al utilizar esta función es que el buffer fuente puede llegar a tener un tamaño mayor que el buffer de destino y asi generar un overflow. Esto es lo que ocurre en nuestro caso.
 
-d.**¿Podría solucionarse este error utilizando la función strncpy? ¿Qué hubiera ocurrido con la ejecución de la prueba?**
+d.¿Podría solucionarse este error utilizando la función strncpy? ¿Qué hubiera ocurrido con la ejecución de la prueba?
+Lo que hace memcpy(void * destino, const void * fuente, size_t num) es copiar los valores de num bytes de la ubicación apuntada por la fuente directamente al bloque de memoria apuntado por el destino, obteniendo una copia binaria de los datos. Lo que hace strncpy(char * destino, const char * fuente, size_t num) es copiar el primer número de caracteres del origen al destino. No creo que sea una buena solución utilizar el strncpy ya que el problema que generó memcpy con el overflow a causa de que el buffer fuente sea mayor que el buffer de destino puede tambien ocurrir con esta función y obtendriamos el mismo error en la ejecución de la prueba. Probablemente sería mas eficiente directamente no copiar una cadena que nos provee el sistema operativo. Si usamos el strncpy sería fácil que nuestra prueba vuelva a fallar. 
 
 e.Explicar de qué se trata un segmentation fault y un buffer overflow.
 El segmentation fault es un error que se genera por acceder a memoria que no tenemos permitido utilizar. La generación de este error permite que no se corrompa la memoria ni se generen ciertos errores de manejo de memoria.
@@ -495,12 +497,13 @@ Comparando las salidas con las salidas esperadas...
 Finalizando...
 Parece que no has superado todos los casos. Prueba tu trabajo localmente, bloque a bloque y revisa el enunciado. Ayudate de GDB y Valgrind.
 ```
-El SERCOM nos permite identificar el error, al correr las pruebas publicas y compararlas con el resultado esperado. Vemos que para las pruebas "Invalid File" y "Single Word" los resultados obtenidos son distintos a los esperados por lo que el codigo no pasa estas pruebas. **AGREGAR ALGO MAS?**
+El SERCOM nos permite identificar el error, al correr las pruebas publicas y compararlas con el resultado esperado. Vemos que para las pruebas "Invalid File" y "Single Word" los resultados obtenidos son distintos a los esperados por lo que el código no pasa estas pruebas. En ambos casos el input donde hay una única palabra y el siguiente caracter es EOF, devuelven salidas erroneas. Esto se debe a que este caso no esta contemplado correctamente en el código.
 
 c. A continuación vemos la ejecucción del comando **hexdump**:
 ![paso_5](https://github.com/chiabauni/TP0/blob/main/paso_5.png)
-El ultimo caracter del archivo input_single_word.txt es **AGREGAR EXPLICACION**
 
+El último caracter del archivo input_single_word.txt es el EOF.
+ 
 d. A continuación vemos la ejecucción con **gdb**:
 ![gdb_1](https://github.com/chiabauni/TP0/blob/main/gdb_1.png)
 ![gdb_2](https://github.com/chiabauni/TP0/blob/main/gdb_2.png)
@@ -508,7 +511,9 @@ d. A continuación vemos la ejecucción con **gdb**:
 ![gdb_4](https://github.com/chiabauni/TP0/blob/main/gdb_4.png)
 ![gdb_5](https://github.com/chiabauni/TP0/blob/main/gdb_5.png)
 ![gdb_6](https://github.com/chiabauni/TP0/blob/main/gdb_6.png)
-**AGREGAR PORQUE NO SE DETUVO EL DEBUGGER EN EL BREAK POINT**
+
+¿Por qué motivo el debugger no se detuvo en el breakpoint de la línea 45: self->words++;? 
+Esto se debe ya que en el caso que estamos analizando se trata de una palabra y luego el EOF. Este caso el caracter que le sigue no es ninguno de los que esta en la lista de delimitadores, pero no esta contemplado el caso de que luego de la primera palabra se encuntre el EOF. Por lo que nunca llega a la línea 45 del código en donde pusimos el breakpoint. 
 
 
 ### Paso 6: SERCOM - Entrega exitosa
@@ -516,32 +521,8 @@ d. A continuación vemos la ejecucción con **gdb**:
 a. Las correcciones realizadas respecto a la versión anterior son:
 * Se modifica el valor definido para el ERROR, en el paso 5 es -1 y en el paso 6 es 1.
 * Se reemplaza el const char* con los delimitadores de palabras y se remplaza por la palabra DELIM_WORDS definida con las puntuaciones que delimitan las palabras.
-* Se cambia la logica de la funcion "wordscounter_next_state()" permitiendo contar una palabra cunado el caracter siguiente es "\n" y **CHEQUEAR SI CAMBIA ALGO MAS**
+* Se cambia la logica de la funcion "wordscounter_next_state()" permitiendo contar una palabra cunado el caracter siguiente es "\n" 
 
-```
-38,41c37,41
-<     if (c == EOF) {
-<         next_state = STATE_FINISHED;
-<     } else if (state == STATE_WAITING_WORD) {
-<         if (strchr(delim_words, c) == NULL)
----
-> 
->     if (state == STATE_WAITING_WORD) {
->         if (c == EOF) { 
->             next_state = STATE_FINISHED;
->         } else if (strchr(DELIM_WORDS, c) == NULL) {
-42a43
->         }
-44c45,48
-<         if (strchr(delim_words, c) != NULL) {
----
->         if (c == EOF) { 
->             next_state = STATE_FINISHED;
->             self->words++;
->         } else if (strchr(DELIM_WORDS, c) != NULL) {
-48a53
-> 
-```
 b. A continuación vemos todas las entregas realizadas, tanto exitosas como fallidas:
 ![Submission History](https://github.com/chiabauni/TP0/blob/main/Submission History.png)
 
