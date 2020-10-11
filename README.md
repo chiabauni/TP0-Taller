@@ -18,12 +18,16 @@ d)*¿El sizeof() de una struct de C es igual a la suma del sizeof() de cada uno 
 
 Por lo que podemos concluir que el sizeof() de una struct de C es mayor o igual a la suma del sizeof() de cada uno sus elementos.
 
+Por qué? Fijate qué pasa si cambiás el int por un short
+
 e)*Investigar la existencia de los archivos estándar: STDIN, STDOUT, STDERR. Explicar brevemente su uso y cómo redirigirlos en caso de ser necesario (caracteres > y <) y como conectar la salida estándar de un proceso a la entrada estándar de otro con un pipe (carácter|).*
 STDIN: Es la entrada estándar y consiste en el texto(o archivos) que se ingresa como input a través del teclado.
 STDOUT: Es la salida estándar, la vía por donde, luego de su correcta ejecucción, se devuelven los datos.
 STDERR: Es el error estándar, la vía por donde, luego de una ejecucción fallida, se devuelven un mensaje de error.
 En caso de ser necesario se puede usar un archivo de texto para generar entradas. Permitiendo utilizar entradas sin necesitar ingresar a mano en el teclado el input, sino proveniendo de un archivo. Esto se logra con el siguiente comando:  ./ ejecutable.exe < input.txt. De misma manera se puede redirigir el stdout y el stderr, se los redirige a un archivo en vez de mostrarse por pantalla. Por defecto, el símbolo > funciona con stdout, aunque se pueden utilizar numeros antes del simbolo para indicar cual redirigir. Con el siguiente comando se redirige el flujo de stderr a un archivo de texto:  ./ ejecutable.exe 2 > error.txt. Con el siguiente comando se redirige el flujo de stdout a un archivo de texto:  ./ ejecutable.exe 1 > error.txt.
 El siguiente simbolo | entre los dos comandos se llama pipe. El pipe permite que usemos la salida del comando a la izquierda como entrada al comando de la derecha. De la misma manera se pueden encadenar pipes consecutivamente.
+
+Sí, pero el teclado y la pantalla no están relacionados con stdin y stdout
 
 
 ### Paso 1: SERCOM - Errores de generación y normas de programación
@@ -79,6 +83,8 @@ Total errors found: 11
 
 ![8](https://github.com/chiabauni/TP0/blob/main/8.png)
 
+Por qué se hacen esas correcciones? La de 7 es muy importante entenderla bien
+
 b. A continuación mostramos los errores de generación del ejecutable detectados por el SERCOM: 
 ```
 Desempaquetando y compilando el codigo...
@@ -116,6 +122,7 @@ El compilador tiene toda la información para generar código objeto pero no pue
 Sin la información brindada por el .h el compilador no puede chequear la sintaxis del código y por lo tanto tendremos estos errores.
 
 c.*¿El sistema reportó algún WARNING? ¿Por qué?* El sistema no reporta ningún warning ya que se compila con el flag -Werror (todos los warnings son considerados como errores). Por lo que todos los warnings se convierten en errores.
+Claro, los errores de b. son casi todos warnings tratados como errores. El compilador podría terminar de compilar sin las declaraciones de esas funciones, pero al estar -Werror le estamos pidiendo que no lo haga.
 
 ### Paso 2: SERCOM - Errores de generación 2
 
@@ -186,7 +193,7 @@ sys     0m0.038s
 ```
 El linker genera en el archivo "paso2_wordscounter.h" los errores "unknown type name ‘size_t’" ya que la definición de "size_t" se encuentra en la biblioteca <stddef.h> y esta no fue incluida en el archivo .h; también genera "unknown type name ‘FILE’" ya que la definición de "FILE" se encuentra en la biblioteca <stdio.h> y esta no fue incluida en el archivo .h. Además el linker genera en el archivo "paso2_wordscounter.c" los errores "implicit declaration of function ‘malloc’" y "incompatible implicit declaration of built-in function ‘malloc’" esto se debe a que la declaración y definición de esta función se encuntran en la libreria <stdlib.h> la cual no está incluida en el archivo. Finalmente el linker genera el error "conflicting types for ‘wordscounter_get_words’" esto se debe a que, al no incluir en el archivo "paso2_wordscounter.h" la biblioteca en el cual esta definido "size_t" no sabe de que tipo es lo que devuelve la fución. En cambio en el archivo "paso2_wordscounter.c", sí se incluye la biblioteca donde "size_t" está definido. Por lo que queda una función declarada con un tipo de dato desconocido, pero luego se define la misma función con el tipo "size_t" conocido. Por esta diferencia es que se genera el error.
 
-
+El linker todavía no empezó a ejecutarse; stdlib.h no tiene la definición de ninguna función, tiene declaraciones como cualquier archivo de cabeceras; qué significa ese incompatible implicit declaration of built-in function 'malloc'?
 
 ### Paso 3: SERCOM - Errores de generación 3
 
@@ -224,7 +231,7 @@ Done processing /task/student//source_unsafe/paso3_wordscounter.c
 Done processing /task/student//source_unsafe/paso3_wordscounter.h
 ```
 El linker genera en el archivo "paso3_main.o" el error "undefined reference to 'wordscounter_destroy'" esto se debe a que la función 'wordscounter_destroy' está declarada en el archivo "paso3_wordscounter.h" pero no está definida en el archivo "paso3_wordscounter.c" lo que genera un error a la hora de linkear la firma con la definición(ya que esta última no existe). 
-
+Ahora sí es un error en el linker, podés identificarlo porque el que tira el error es /usr/bin/ld
 
 ### Paso 4: SERCOM - Memory Leaks y Buffer Overflows
 a. Las correcciones realizadas respecto a la versión anterior son:
@@ -363,11 +370,12 @@ sys     0m0.133s
 En este caso vemos que hay un error: buffer overflow. Esto se debe a la linea 13 del archivo "paso4_main.c" donde encontramos "memcpy(filepath, argv[1], strlen(argv[1]) + 1);". La función memcpy sirve para copiar los bytes de la ubicación apuntada por la argv[1] directamente al bloque de memoria apuntado por filepath. El problema que puede surgir al utilizar esta función es que el buffer fuente puede llegar a tener un tamaño mayor que el buffer de destino y asi generar un overflow. Esto es lo que ocurre en nuestro caso.
 
 d.*¿Podría solucionarse este error utilizando la función strncpy? ¿Qué hubiera ocurrido con la ejecución de la prueba?*
-Lo que hace memcpy(void * destino, const void * fuente, size_t num) es copiar los valores de num bytes de la ubicación apuntada por la fuente directamente al bloque de memoria apuntado por el destino, obteniendo una copia binaria de los datos. Lo que hace strncpy(char * destino, const char * fuente, size_t num) es copiar el primer número de caracteres del origen al destino. No creo que sea una buena solución utilizar el strncpy ya que el problema que generó memcpy con el overflow a causa de que el buffer fuente sea mayor que el buffer de destino puede tambien ocurrir con esta función y obtendriamos el mismo error en la ejecución de la prueba. Probablemente sería mas eficiente directamente no copiar una cadena que nos provee el sistema operativo. Si usamos el strncpy sería fácil que nuestra prueba vuelva a fallar. 
+Lo que hace memcpy(void * destino, const void * fuente, size_t num) es copiar los valores de num bytes de la ubicación apuntada por la fuente directamente al bloque de memoria apuntado por el destino, obteniendo una copia binaria de los datos. Lo que hace strncpy(char * destino, const char * fuente, size_t num) es copiar el primer número de caracteres del origen al destino. No creo que sea una buena solución utilizar el strncpy ya que el problema que generó memcpy con el overflow a causa de que el buffer fuente sea mayor que el buffer de destino puede tambien ocurrir con esta función y obtendriamos el mismo error en la ejecución de la prueba. Probablemente sería mas eficiente directamente no copiar una cadena que nos provee el sistema operativo. Si usamos el strncpy sería fácil que nuestra prueba vuelva a fallar.
+Exacto! Eso o poner un buffer que sea suficiente para contener tal nombre, y hacer algún chequeo pertinente sobre el largo de la entrada.
 
 e.*Explicar de qué se trata un segmentation fault y un buffer overflow.*
 El segmentation fault es un error que se genera por acceder a memoria que no tenemos permitido utilizar. La generación de este error permite que no se corrompa la memoria ni se generen ciertos errores de manejo de memoria.
-El buffer overflow ocurre cuando un programa no controla la cantidad de datos que se escriben sobre la memoria y se excede el uso de esta misma. La memoria es asignada por el sistema operativo, por lo que el overflow termina sobreescribiendo datos en el bloque de memoria contiguo al que fue asignado inicialmente.
+El buffer overflow ocurre cuando un programa no controla la cantidad de datos que se escriben sobre la memoria y se excede el uso de esta misma. La memoria es asignada por el sistema operativo, por lo que el overflow termina sobreescribiendo datos en el bloque de memoria contiguo al que fue asignado inicialmente. También te podés exceder de un buffer y pisar memoria que sí tenés asignada, lo que constituye un problema de seguridad muy difícil de debuggear.
 
 ### Paso 5: SERCOM - Código de retorno y salida estándar
 
@@ -498,11 +506,13 @@ Finalizando...
 Parece que no has superado todos los casos. Prueba tu trabajo localmente, bloque a bloque y revisa el enunciado. Ayudate de GDB y Valgrind.
 ```
 El SERCOM nos permite identificar el error, al correr las pruebas publicas y compararlas con el resultado esperado. Vemos que para las pruebas "Invalid File" y "Single Word" los resultados obtenidos son distintos a los esperados por lo que el código no pasa estas pruebas. En ambos casos el input donde hay una única palabra y el siguiente caracter es EOF, devuelven salidas erroneas. Esto se debe a que este caso no esta contemplado correctamente en el código.
+EOF no es un caracter
 
 c. A continuación vemos la ejecucción del comando **hexdump**:
 ![paso_5](https://github.com/chiabauni/TP0/blob/main/paso_5.png)
 
 El último caracter del archivo input_single_word.txt es el EOF.
+No, es una 'd' (0x64 en hexa)
  
 d. A continuación vemos la ejecucción con **gdb**:
 ![gdb_1](https://github.com/chiabauni/TP0/blob/main/gdb_1.png)
